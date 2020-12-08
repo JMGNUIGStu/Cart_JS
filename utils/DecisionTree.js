@@ -107,7 +107,6 @@ function entropy(data)
             }
         }
         )
-
         // Calculates proportion of each label and calculates entropy
         const labelRatio = labelCount/data.length
         const addEntropy = -labelRatio*Math.log2(labelRatio)
@@ -150,6 +149,25 @@ function treeBuilder(data, attributes)
     treeRight = treeBuilder(dataSplit.right, attributes)
 
     return new DecisionNode(questionToAsk, treeRight, treeLeft)
+}
+
+function transform(node, attributes)
+{
+    if (attributes.index < node.value)
+    {
+        if (node.includes(index))
+        {
+            return transform(node.left, attributes)
+        }
+        else 
+            return Node.node
+    }
+    if (node.includes(index))
+        {
+            return transform(node.right, attributes)
+        }
+        else 
+            return Node.node
 }
 
 module.exports = {

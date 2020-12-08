@@ -1,8 +1,10 @@
 const decisionTree = require('./utils/DecisionTree')
-const parser = require('./utils/Parse')
+const parser = require('./utils/ParseCSV')
 const splitFiles = require('./utils/SplitFile')
 const Randomise = require('./utils/Randomise')
 const fs = require('fs')
+
+// Initally completed by Jack, improved structure and flow by Meadhbh as Jack solution was incomplete/incorrect in places
 
 function main()
 {
@@ -13,10 +15,10 @@ function main()
     const trainArray = splitFiles.getTrainArray(random)
     const testArray = splitFiles.getTestArray(random)
     const tree = decisionTree.treeBuilder(trainArray, [])
-    const predictions = decisionTree.fit(tree, trainArray)
+    const predictions = decisionTree.fit(trainArray, tree, trainArray)
 
     // Cycle through data and predictions
-    trainArray.forEach(function(item, index, array)
+    testArray.forEach(function(item, index, array)
     {
         let currentPrediction = ""
         let size = 0

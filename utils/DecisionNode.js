@@ -1,4 +1,4 @@
-// Holds references and child branches for questions
+// Holds references and child branches for questions -- Jack
 function DecisionNode(question, branchTrue, branchFalse)
 {
     this.question = question

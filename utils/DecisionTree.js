@@ -3,7 +3,7 @@ const DecisionNode = require('./DecisionNode.js').DecisionNode
 const LeafNode = require('./LeafNode.js').LeafNode
 
 
-// Return predictions
+// Return predictions       -- Jack McGirl
 function fit(tree, data) 
 {
     let predictions = []
@@ -15,7 +15,19 @@ function fit(tree, data)
     return predictions
 }
 
-// Left = False, Right = True
+// Jack with improvements by Meadhbh
+function predict(train, data, attributes)  
+{
+    let predictionsTrain = []
+    data.forEach(function(sample, index, array) 
+    {
+        predictionsTrain.push(transform(train, attributes))
+    }
+    )
+    return predictionsTrain
+}
+
+// Left = False, Right = True   -- Jack
 function splitData(data, questionToAsk)
 {
     let splitData=
@@ -37,7 +49,7 @@ function splitData(data, questionToAsk)
     return splitData
 }
 
-// Identifies question with highest information gain and returns it
+// Identifies question with highest information gain and returns it -- Jack
 function getSplit(data, attributes)
 {
     let infoGain = 0
@@ -65,7 +77,7 @@ function getSplit(data, attributes)
     return questionToAsk
 }
 
-//Calculates the information gain for a passed question
+//Calculates the information gain for a passed question -- Meadhbh
 function informationGain(data, questionToAsk)
 {
     const dataSplit = splitData(data, questionToAsk)
@@ -79,7 +91,7 @@ function informationGain(data, questionToAsk)
 
 // Calculate entropy of data, assumes label is 6th from last column 
 //so this must be edited for different datasets, can't get it to read by label
-// and js treats the numbers as strings
+// and js treats the numbers as strings     -- Meadhbh
 function entropy(data) 
 {
     let labels = Array()
@@ -116,7 +128,7 @@ function entropy(data)
     return parseFloat(e.toFixed(3))
 }
 
-// Classify data and returns array of predictions
+// Classify data and returns array of predictions   -- Jack
 function classifier(sample, node) 
     {
         if ((typeof node.predictions) === 'undefined')
@@ -131,9 +143,10 @@ function classifier(sample, node)
         return node.predictions
     }   
 
-// Build a tree recursively
-function treeBuilder(data, attributes)
+// Build a tree recursively -- Joint effort, took some figuring out by both of us
+function treeBuilder(train, data, attributes)
 {
+
     // Find the best question to use
     const questionToAsk = getSplit(data, attributes)
     // If undefined is returned create a new LeafNode
@@ -144,6 +157,9 @@ function treeBuilder(data, attributes)
     // Partition the Data
     let dataSplit = splitData(data, questionToAsk)
 
+    // Supposed to transform the training data but im not fully sure what to do with it
+    let predictions = predict(train, data, attributes)
+    
     attributes.push(questionToAsk.index)
     treeLeft = treeBuilder(dataSplit.left, attributes)
     treeRight = treeBuilder(dataSplit.right, attributes)
@@ -151,7 +167,7 @@ function treeBuilder(data, attributes)
     return new DecisionNode(questionToAsk, treeRight, treeLeft)
 }
 
-function transform(node, attributes)
+function transform(node, attributes)    // Jack
 {
     if (attributes.index < node.value)
     {

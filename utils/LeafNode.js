@@ -1,4 +1,4 @@
-function LeafNode(data)
+function LeafNode(data) // --Meadhbh
 {
     this.data = data
     let predictions = {}

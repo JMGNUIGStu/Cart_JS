@@ -2,7 +2,7 @@ const csv=require('csvtojson')
 const parse=require('csv-parse')
 const fs=require('fs')
 const output='./result.json'
-
+// Meadhbh with fixes by Jack
 module.exports=
 {
     loadCSVData: function(filename) 

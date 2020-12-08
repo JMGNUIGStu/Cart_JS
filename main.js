@@ -1,5 +1,7 @@
 const decisionTree = require('./utils/DecisionTree')
-const parser = require('./utils/parseCSV')
+const parser = require('./utils/Parse')
+const splitFiles = require('./utils/SplitFile')
+const Randomise = require('./utils/Randomise')
 const fs = require('fs')
 
 function main()
@@ -7,11 +9,14 @@ function main()
     // Import data from CSV and build tree
     const inputData = "./beer.csv"
     const data = parser.loadCSVData(inputData)
-    const tree = decisionTree.treeBuilder(data, [])
-    const predictions = decisionTree.fit(tree, data)
+    const random = Randomise.Randomise(data)
+    const trainArray = splitFiles.getTrainArray(random)
+    const testArray = splitFiles.getTestArray(random)
+    const tree = decisionTree.treeBuilder(trainArray, [])
+    const predictions = decisionTree.fit(tree, trainArray)
 
     // Cycle through data and predictions
-    data.forEach(function(item, index, array)
+    trainArray.forEach(function(item, index, array)
     {
         let currentPrediction = ""
         let size = 0
